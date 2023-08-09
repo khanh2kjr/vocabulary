@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import ModalAddANewWord from './components/ModalAddANewWord'
 import { authSelector } from '@/reducers/auth.reducer'
 import TextToSpeech from '@/components/TextToSpeech'
+import SelectVocabularyType from '@/components/SelectVocabularyType'
 
 const newWordsForYouColumns = [
   {
@@ -61,6 +62,7 @@ const Vocabulary = () => {
     page: queries.page || 1,
     limit: queries.limit || 100,
     keyword: queries.keyword || '',
+    typeId: queries.typeId || '',
   })
   const [useModalAddANewWord, setUseModalAddANewWord] = useState(false)
 
@@ -162,6 +164,21 @@ const Vocabulary = () => {
       })
   }
 
+  const handleVocabularyTypeChange = ({ value }) => {
+    setQueriesInternal({
+      ...queriesInternal,
+      typeId: value,
+      page: 1,
+    })
+    dispatch(
+      setQueries({
+        ...queries,
+        typeId: value,
+        page: 1,
+      })
+    )
+  }
+
   useEffect(() => {
     if (hasChanged) {
       dispatch(getVocabularies(queriesInternal))
@@ -181,13 +198,21 @@ const Vocabulary = () => {
       <CommonTable
         HeaderActions={
           <Box className={classes.headerActions}>
-            <InputText
-              startAdornment={<Search />}
-              label="Search"
-              sx={{ width: 300 }}
-              value={queriesInternal.keyword}
-              onChange={handleSearchChange}
-            />
+            <Box className={classes.leftActions}>
+              <InputText
+                startAdornment={<Search />}
+                label="Search"
+                sx={{ width: 300 }}
+                value={queriesInternal.keyword}
+                onChange={handleSearchChange}
+              />
+              <SelectVocabularyType
+                sx={{ width: 200, marginTop: -1 }}
+                value={queriesInternal.typeId}
+                onChange={handleVocabularyTypeChange}
+              />
+            </Box>
+
             <Button
               variant="outlined"
               startIcon={<Add />}
@@ -214,13 +239,18 @@ const Vocabulary = () => {
   )
 }
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   headerActions: {
     display: 'flex',
     justifyContent: 'space-between',
   },
   buttonAddANewWord: {
     height: '36px',
+  },
+  leftActions: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(3),
   },
 }))
 

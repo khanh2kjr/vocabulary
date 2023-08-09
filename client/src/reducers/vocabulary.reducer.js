@@ -12,6 +12,7 @@ const initialState = {
     limit: 100,
     page: 1,
     keyword: '',
+    typeId: '',
   },
   hasChanged: true,
   types: [],

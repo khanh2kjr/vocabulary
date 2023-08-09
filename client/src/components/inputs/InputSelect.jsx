@@ -1,9 +1,10 @@
+import { Close } from '@mui/icons-material'
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 
-const InputSelect = ({ name, label, listOptions, value, onChange, error, onBlur }) => {
+const InputSelect = ({ name, label, listOptions, value, onChange, error, onBlur, sx }) => {
   const classes = useStyles()
 
   const [internalValue, setInternalValue] = useState('*')
@@ -28,12 +29,10 @@ const InputSelect = ({ name, label, listOptions, value, onChange, error, onBlur 
   }, [value])
 
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth sx={sx}>
       <InputLabel>{label}</InputLabel>
       <Select label={label} onChange={handleChange} error={error} value={internalValue} onBlur={handleBlur}>
-        <MenuItem value="*" className={classes.choose}>
-          Choose
-        </MenuItem>
+        <MenuItem value="*" className={classes.choose}></MenuItem>
         {listOptions.map(option => (
           <MenuItem key={option.id} value={option.id}>
             {option.name}
@@ -57,11 +56,13 @@ InputSelect.propTypes = {
   name: PropTypes.string,
   error: PropTypes.bool,
   handleBlur: PropTypes.func,
+  sx: PropTypes.any,
 }
 
 const useStyles = makeStyles(theme => ({
   choose: {
     fontStyle: 'italic',
+    height: theme.spacing(4),
   },
 }))
 
