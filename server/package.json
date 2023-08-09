@@ -5,8 +5,8 @@
   "author": "khanh2kjr <khanhthachxa@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node src/index",
-    "dev": "nodemon src/index"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
