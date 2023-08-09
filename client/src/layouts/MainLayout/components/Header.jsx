@@ -7,10 +7,13 @@ import { makeStyles } from '@mui/styles'
 import clsx from 'clsx'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { PathConstant } from '@/constants'
 
 const Header = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const { user } = useSelector(authSelector)
 
@@ -27,6 +30,7 @@ const Header = () => {
   }
 
   const handleLogout = () => {
+    navigate(PathConstant.LOGIN)
     setAnchorEl(null)
     LocalStorage.clearToken()
     dispatch(
