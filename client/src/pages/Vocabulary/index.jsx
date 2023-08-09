@@ -15,6 +15,7 @@ import { Fragment, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ModalAddANewWord from './components/ModalAddANewWord'
 import { authSelector } from '@/reducers/auth.reducer'
+import TextToSpeech from '@/components/TextToSpeech'
 
 const newWordsForYouColumns = [
   {
@@ -22,16 +23,16 @@ const newWordsForYouColumns = [
     name: 'Word/Phrase',
   },
   {
-    id: 'type',
-    name: 'Type',
+    id: 'translation',
+    name: 'Translation',
   },
   {
     id: 'spelling',
     name: 'Spelling',
   },
   {
-    id: 'translation',
-    name: 'Translation',
+    id: 'type',
+    name: 'Type',
   },
   {
     id: 'example',
@@ -58,7 +59,7 @@ const Vocabulary = () => {
 
   const [queriesInternal, setQueriesInternal] = useState({
     page: queries.page || 1,
-    limit: queries.limit || 10,
+    limit: queries.limit || 100,
     keyword: queries.keyword || '',
   })
   const [useModalAddANewWord, setUseModalAddANewWord] = useState(false)
@@ -67,6 +68,7 @@ const Vocabulary = () => {
     const isVocabularyOwner = vocabulary.user._id === currentUserId
     return {
       ...vocabulary,
+      name: <TextToSpeech text={vocabulary.name} />,
       author: `${vocabulary.user.firstName} ${vocabulary.user.lastName}`,
       delete: isVocabularyOwner ? (
         <Delete sx={{ cursor: 'pointer' }} className="svg-icon" onClick={() => handleDeleteVocabulary(vocabulary.id)} />
@@ -86,7 +88,20 @@ const Vocabulary = () => {
       dispatch(deleteVocabulary(vocabularyId))
         .unwrap()
         .then(() => {
-          dispatch(getVocabularies(queriesInternal))
+          if (vocabularies.length === 1 && queriesInternal.page !== 1) {
+            setQueriesInternal({
+              ...queriesInternal,
+              page: queriesInternal.page - 1,
+            })
+            dispatch(
+              setQueries({
+                ...queries,
+                page: queriesInternal.page - 1,
+              })
+            )
+          } else {
+            dispatch(getVocabularies(queriesInternal))
+          }
         })
     }
   }

@@ -67,7 +67,6 @@ export const loginUser = createAsyncThunk(
 export const getSelfInfo = createAsyncThunk(
   `${AppConstant.STORE_NAMESPACE.AUTH}/getSelfInfo`,
   async (_, { rejectWithValue, dispatch }) => {
-    dispatch(setGlobalLoading(true))
     try {
       const res = await AuthService.getSelfInfo()
       return res
@@ -77,8 +76,6 @@ export const getSelfInfo = createAsyncThunk(
         window.location.href = PathConstant.LOGIN
       }
       return rejectWithValue(error)
-    } finally {
-      dispatch(setGlobalLoading(false))
     }
   }
 )

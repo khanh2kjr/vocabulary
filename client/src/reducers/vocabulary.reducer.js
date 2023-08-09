@@ -9,7 +9,7 @@ const initialState = {
   loading: true,
   totalElements: 0,
   queries: {
-    limit: 10,
+    limit: 100,
     page: 1,
     keyword: '',
   },
