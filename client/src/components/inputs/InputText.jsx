@@ -58,7 +58,9 @@ const useStyles = makeStyles(theme => ({
   RootInputText: {
     width: '100%',
     maxWidth: 500,
-    '& input': {},
+    '& input': {
+      paddingLeft: '4px',
+    },
   },
 }))
 

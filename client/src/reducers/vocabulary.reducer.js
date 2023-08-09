@@ -125,7 +125,7 @@ export const vocabularySlice = createSlice({
       state.loading = false
     })
     builder.addCase(getVocabularyType.fulfilled, (state, { payload }) => {
-      state.types = payload.data.map(type => ({ ...type, id: type._id }))
+      state.types = payload.data.map(type => ({ ...type, id: type._id })).reverse()
     })
   },
 })
