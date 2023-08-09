@@ -1,0 +1,7 @@
+export const LOGIN = '/login'
+export const MAIN = '/'
+export const NOT_FOUND = '/not-found'
+export const PAGE_404 = '/404-not-found'
+export const PAGE_403 = '/403-forbidden'
+export const VOCABULARIES = '/vocabularies'
+export const QUIZ = '/quiz'
