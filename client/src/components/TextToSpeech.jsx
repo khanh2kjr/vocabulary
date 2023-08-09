@@ -9,14 +9,6 @@ const TextToSpeech = ({ text }) => {
 
   const [voice, setVoice] = useState(null)
 
-  useEffect(() => {
-    const synth = window.speechSynthesis
-    synth.addEventListener('voiceschanged', () => {
-      const voices = synth.getVoices()
-      setVoice(voices[0])
-    })
-  }, [text])
-
   const handlePlay = () => {
     const utterance = new SpeechSynthesisUtterance(text)
     const synth = window.speechSynthesis
@@ -27,6 +19,14 @@ const TextToSpeech = ({ text }) => {
     utterance.volume = 2
     synth.speak(utterance)
   }
+
+  useEffect(() => {
+    const synth = window.speechSynthesis
+    synth.addEventListener('voiceschanged', () => {
+      const voices = synth.getVoices()
+      setVoice(voices[0])
+    })
+  }, [text])
 
   return (
     <Box className={classes.RootTextToSpeech}>
