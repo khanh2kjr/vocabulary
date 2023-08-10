@@ -42,7 +42,11 @@ const CommonTable = ({
           {!!rows.length ? (
             <TableBody>
               {rows.map(rowData => (
-                <TableRow key={rowData.id} onClick={() => onClickRow(rowData)}>
+                <TableRow
+                  className={classes.useRowClickDetail}
+                  key={rowData.id}
+                  onClick={() => onClickRow(rowData)}
+                >
                   {columns.map(col => (
                     <TableCell key={col.id}>{rowData[col.id]}</TableCell>
                   ))}
@@ -110,6 +114,12 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     height: 200,
     fontSize: 18,
+  },
+  useRowClickDetail: {
+    cursor: 'pointer',
+    '&:hover': {
+      background: '#dcdcdc',
+    },
   },
 }))
 

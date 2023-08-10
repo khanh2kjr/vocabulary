@@ -65,7 +65,7 @@ const Vocabulary = () => {
     typeId: queries.typeId || '',
   })
   const [useModalAddANewWord, setUseModalAddANewWord] = useState(false)
-  const [registeredVocabulary, setRegisteredVocabulary] = useState({})
+  const [registeredVocabulary, setRegisteredVocabulary] = useState(null)
 
   const createVocabularyRow = (vocabulary, currentUserId) => {
     const isVocabularyOwner = vocabulary.user._id === currentUserId
@@ -180,7 +180,7 @@ const Vocabulary = () => {
   }
 
   const handleOpenModalAddANewWord = () => {
-    setRegisteredVocabulary({})
+    setRegisteredVocabulary(null)
     setUseModalAddANewWord(true)
   }
 

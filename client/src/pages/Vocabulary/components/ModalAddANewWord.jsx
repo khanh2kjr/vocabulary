@@ -25,11 +25,11 @@ const ModalAddANewWord = ({ onClose, onSubmit, updateValue }) => {
 
   useEffect(() => {
     form.reset({
-      name: updateValue.name,
-      type: updateValue.typeId,
-      spelling: updateValue.spelling,
-      translation: updateValue.translation,
-      example: updateValue.example,
+      name: updateValue?.name?.props.text,
+      type: updateValue?.typeId,
+      spelling: updateValue?.spelling,
+      translation: updateValue?.translation,
+      example: updateValue?.example,
     })
   }, [updateValue])
 
@@ -46,7 +46,12 @@ const ModalAddANewWord = ({ onClose, onSubmit, updateValue }) => {
   }
 
   return (
-    <Modal title="Add a new word" onClose={onClose} onSubmit={form.handleSubmit(onSubmit)}>
+    <Modal
+      title={!!updateValue ? 'Edit word' : 'Add a new word'}
+      isEdit={!!updateValue}
+      onClose={onClose}
+      onSubmit={form.handleSubmit(onSubmit)}
+    >
       <Box className={classes.modalBody}>
         <FormControlLabel message={errors.name && errors.name.message}>
           <InputText

@@ -7,7 +7,7 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
 
-const Modal = ({ title, children, onClose, onSubmit, useHookForm = true }) => {
+const Modal = ({ title, children, onClose, onSubmit, useHookForm = true, isEdit }) => {
   const classes = useStyles()
 
   return (
@@ -26,7 +26,7 @@ const Modal = ({ title, children, onClose, onSubmit, useHookForm = true }) => {
                 !!onSubmit && !useHookForm && onSubmit()
               }}
             >
-              Submit
+              {isEdit ? 'Edit' : 'Submit'}
             </Button>
           </Box>
         </form>
