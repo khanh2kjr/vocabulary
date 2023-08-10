@@ -89,6 +89,7 @@ const Vocabulary = () => {
       ) : (
         ''
       ),
+      useClickRow: isVocabularyOwner,
     }
   }
 

@@ -43,7 +43,7 @@ const CommonTable = ({
             <TableBody>
               {rows.map(rowData => (
                 <TableRow
-                  className={classes.useRowClickDetail}
+                  className={rowData.useClickRow ? classes.useRowClickDetail : ''}
                   key={rowData.id}
                   onClick={() => onClickRow(rowData)}
                 >

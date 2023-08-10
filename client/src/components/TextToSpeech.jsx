@@ -11,7 +11,9 @@ const TextToSpeech = ({ text, onPlay, playCounter }) => {
 
   const synthRef = useRef(null)
 
-  const handlePlay = () => {
+  const handlePlay = event => {
+    event.nativeEvent.stopImmediatePropagation()
+    event.stopPropagation()
     stopSpeech()
     const utterance = new SpeechSynthesisUtterance(text)
     const synth = window.speechSynthesis
@@ -51,7 +53,7 @@ const TextToSpeech = ({ text, onPlay, playCounter }) => {
   return (
     <Box className={classes.RootTextToSpeech}>
       <Box>{text}</Box>
-      <IconButton onClick={handlePlay}>
+      <IconButton onClick={e => handlePlay(e)}>
         <VolumeUp className="svg-icon" sx={{ cursor: 'pointer' }} />
       </IconButton>
     </Box>
