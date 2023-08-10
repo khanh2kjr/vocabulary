@@ -58,6 +58,7 @@ const Vocabulary = () => {
   const { vocabularies, totalElements, queries, hasChanged } = useSelector(vocabularySelector)
   const { user } = useSelector(authSelector)
 
+  const [playCounter, setPlayCounter] = useState(0)
   const [queriesInternal, setQueriesInternal] = useState({
     page: queries.page || 1,
     limit: queries.limit || 100,
@@ -70,7 +71,13 @@ const Vocabulary = () => {
     const isVocabularyOwner = vocabulary.user._id === currentUserId
     return {
       ...vocabulary,
-      name: <TextToSpeech text={vocabulary.name} />,
+      name: (
+        <TextToSpeech
+          text={vocabulary.name}
+          playCounter={playCounter}
+          onPlay={() => setPlayCounter(prev => prev + 1)}
+        />
+      ),
       author: `${vocabulary.user.firstName} ${vocabulary.user.lastName}`,
       delete: isVocabularyOwner ? (
         <Delete sx={{ cursor: 'pointer' }} className="svg-icon" onClick={() => handleDeleteVocabulary(vocabulary.id)} />
