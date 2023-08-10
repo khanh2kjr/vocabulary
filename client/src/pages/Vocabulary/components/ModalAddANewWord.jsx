@@ -7,8 +7,9 @@ import { vocabularySchema } from '@/schemas/vocabulary.schema'
 import { Box } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { useForm } from 'react-hook-form'
+import { useEffect } from 'react'
 
-const ModalAddANewWord = ({ onClose, onSubmit }) => {
+const ModalAddANewWord = ({ onClose, onSubmit, updateValue }) => {
   const classes = useStyles()
 
   const form = useForm({
@@ -21,6 +22,16 @@ const ModalAddANewWord = ({ onClose, onSubmit }) => {
     },
     resolver: vocabularySchema,
   })
+
+  useEffect(() => {
+    form.reset({
+      name: updateValue.name,
+      type: updateValue.typeId,
+      spelling: updateValue.spelling,
+      translation: updateValue.translation,
+      example: updateValue.example,
+    })
+  }, [updateValue])
 
   const { errors, isSubmitted } = form.formState
 

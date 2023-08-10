@@ -13,7 +13,18 @@ import { makeStyles } from '@mui/styles'
 import clsx from 'clsx'
 import PropTypes from 'prop-types'
 
-const CommonTable = ({ title, columns, rows, page, limit, total, HeaderActions, onPageChange, onLimitChange }) => {
+const CommonTable = ({
+  title,
+  columns,
+  rows,
+  page,
+  limit,
+  total,
+  HeaderActions,
+  onPageChange,
+  onLimitChange,
+  onClickRow,
+}) => {
   const classes = useStyles()
   return (
     <Paper className={classes.RootCommonTable}>
@@ -31,7 +42,7 @@ const CommonTable = ({ title, columns, rows, page, limit, total, HeaderActions, 
           {!!rows.length ? (
             <TableBody>
               {rows.map(rowData => (
-                <TableRow key={rowData.id}>
+                <TableRow key={rowData.id} onClick={() => onClickRow(rowData)}>
                   {columns.map(col => (
                     <TableCell key={col.id}>{rowData[col.id]}</TableCell>
                   ))}
@@ -80,6 +91,7 @@ CommonTable.propTypes = {
   HeaderActions: PropTypes.element,
   onPageChange: PropTypes.func,
   onLimitChange: PropTypes.func,
+  onClickRow: PropTypes.func,
 }
 
 const useStyles = makeStyles(theme => ({

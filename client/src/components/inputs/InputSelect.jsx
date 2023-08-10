@@ -23,6 +23,7 @@ const InputSelect = ({ name, label, listOptions, value, onChange, error, onBlur 
 
   useEffect(() => {
     if (value && value !== internalValue) {
+      console.log(value)
       setInternalValue(value)
     }
   }, [value])
