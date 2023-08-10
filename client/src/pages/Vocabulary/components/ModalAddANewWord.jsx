@@ -58,15 +58,6 @@ const ModalAddANewWord = ({ onClose, onSubmit, updateValue }) => {
             onBlur={handleBlur}
           />
         </FormControlLabel>
-        <SelectVocabularyType
-          error={!!errors.type}
-          value={form.getValues('type')}
-          message={errors.type && errors.type.message}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-
-        <InputText label="Spelling" name="spelling" value={form.getValues('spelling')} onChange={handleChange} />
         <FormControlLabel message={errors.translation && errors.translation.message}>
           <InputText
             name="translation"
@@ -77,6 +68,14 @@ const ModalAddANewWord = ({ onClose, onSubmit, updateValue }) => {
             onBlur={handleBlur}
           />
         </FormControlLabel>
+        <SelectVocabularyType
+          error={!!errors.type}
+          value={form.getValues('type')}
+          message={errors.type && errors.type.message}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        <InputText label="Spelling" name="spelling" value={form.getValues('spelling')} onChange={handleChange} />
         <InputTextArea name="example" label="Example" value={form.getValues('example')} onChange={handleChange} />
       </Box>
     </Modal>

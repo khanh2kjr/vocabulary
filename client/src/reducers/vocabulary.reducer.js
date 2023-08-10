@@ -9,9 +9,10 @@ const initialState = {
   loading: true,
   totalElements: 0,
   queries: {
-    limit: 10,
+    limit: 100,
     page: 1,
     keyword: '',
+    typeId: '',
   },
   hasChanged: true,
   types: [],
@@ -125,7 +126,7 @@ export const vocabularySlice = createSlice({
       state.loading = false
     })
     builder.addCase(getVocabularyType.fulfilled, (state, { payload }) => {
-      state.types = payload.data.map(type => ({ ...type, id: type._id }))
+      state.types = payload.data.map(type => ({ ...type, id: type._id })).reverse()
     })
   },
 })

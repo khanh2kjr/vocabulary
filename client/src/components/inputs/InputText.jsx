@@ -57,8 +57,10 @@ InputText.propTypes = {
 const useStyles = makeStyles(theme => ({
   RootInputText: {
     width: '100%',
-    maxWidth: 400,
-    '& input': {},
+    maxWidth: 500,
+    '& input': {
+      paddingLeft: '4px',
+    },
   },
 }))
 

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import InputSelect from './inputs/InputSelect'
 import { getVocabularyType } from '@/reducers/vocabulary.reducer'
 
-const SelectVocabularyType = ({ value, message, error, name = 'type', onChange, onBlur, label = 'Type *' }) => {
+const SelectVocabularyType = ({ value, message, error, name = 'type', onChange, onBlur, label = 'Type *', sx }) => {
   const dispatch = useDispatch()
 
   const { types } = useSelector(vocabularySelector)
@@ -18,6 +18,7 @@ const SelectVocabularyType = ({ value, message, error, name = 'type', onChange, 
   return (
     <FormControlLabel message={message}>
       <InputSelect
+        sx={sx}
         error={!!error}
         label={label}
         value={value}
@@ -38,6 +39,7 @@ SelectVocabularyType.propTypes = {
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   label: PropTypes.string,
+  sx: PropTypes.any,
 }
 
 export default SelectVocabularyType
