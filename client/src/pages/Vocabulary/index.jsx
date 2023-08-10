@@ -6,6 +6,7 @@ import {
   setQueries,
   vocabularySelector,
   createVocabulary,
+  updateVocabulary,
   deleteVocabulary,
 } from '@/reducers/vocabulary.reducer'
 import { Add, Delete, Search } from '@mui/icons-material'
@@ -179,6 +180,22 @@ const Vocabulary = () => {
       })
   }
 
+  const handleUpdateWord = requestBody => {
+    const payload = {
+      requestBody: {
+        ...requestBody,
+        user: user.id,
+      },
+      vocabularyId: registeredVocabulary.id,
+    }
+    dispatch(updateVocabulary(payload))
+      .unwrap()
+      .then(() => {
+        setUseModalAddANewWord(false)
+        dispatch(getVocabularies(queriesInternal))
+      })
+  }
+
   const handleClickRow = rowData => {
     const isVocabularyOwner = rowData.user._id === user.id
     if (isVocabularyOwner) {
@@ -264,7 +281,7 @@ const Vocabulary = () => {
       {useModalAddANewWord && (
         <ModalAddANewWord
           onClose={() => setUseModalAddANewWord(false)}
-          onSubmit={handleAddANewWord}
+          onSubmit={registeredVocabulary ? handleUpdateWord : handleAddANewWord}
           updateValue={registeredVocabulary}
         />
       )}

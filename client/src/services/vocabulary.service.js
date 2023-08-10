@@ -10,6 +10,9 @@ export default {
   createVocabulary(requestBody) {
     return ApiClientWithToken.post('/vocabularies', requestBody)
   },
+  updateVocabulary(payload) {
+    return ApiClientWithToken.put(`/vocabularies/${payload.vocabularyId}`, payload.requestBody)
+  },
   deleteVocabulary(vocabularyId) {
     return ApiClientWithToken.delete(`/vocabularies/${vocabularyId}`)
   },

@@ -58,6 +58,31 @@ export const createVocabulary = createAsyncThunk(
   }
 )
 
+export const updateVocabulary = createAsyncThunk(
+  `${AppConstant.STORE_NAMESPACE.VOCABULARY}/updateVocabulary`,
+  async (payload, { rejectWithValue, dispatch }) => {
+    dispatch(setGlobalLoading(true))
+    try {
+      const res = await VocabularyService.updateVocabulary(payload)
+      dispatch(
+        alertSuccess({
+          message: 'Vocabulary was updated successfully.',
+        })
+      )
+      return res
+    } catch (error) {
+      dispatch(
+        alertError({
+          message: error.message,
+        })
+      )
+      return rejectWithValue(error)
+    } finally {
+      dispatch(setGlobalLoading(false))
+    }
+  }
+)
+
 export const deleteVocabulary = createAsyncThunk(
   `${AppConstant.STORE_NAMESPACE.VOCABULARY}/deleteVocabulary`,
   async (vocabularyId, { rejectWithValue, dispatch }) => {

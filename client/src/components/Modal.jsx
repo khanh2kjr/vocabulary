@@ -41,6 +41,7 @@ Modal.propTypes = {
   onSubmit: PropTypes.func,
   children: PropTypes.element.isRequired,
   useHookForm: PropTypes.bool,
+  isEdit: PropTypes.bool,
 }
 
 const useStyles = makeStyles(theme => ({
