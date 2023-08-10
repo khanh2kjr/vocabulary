@@ -22,6 +22,7 @@ const TextToSpeech = ({ text }) => {
     utterance.onend = () => {
       setPlaying(false)
     }
+    console.log(utterance.voice)
     synth.speak(utterance)
   }
 
