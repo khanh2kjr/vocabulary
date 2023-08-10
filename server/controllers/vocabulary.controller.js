@@ -89,7 +89,33 @@ const deleteVocabulary = async (req, res) => {
     await VocabularyModel.deleteOne({ _id: new ObjectId(vocabularyId) })
     res.json({
       success: true,
-      message: 'success.',
+      message: 'Success.',
+    })
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error.',
+    })
+  }
+}
+
+const updateVocabulary = async (req, res) => {
+  const { name, spelling, translation, example, type } = req.body
+  if (!name || !translation || !type) {
+    return res.status(400).json({
+      success: false,
+      message: 'Missing fields',
+    })
+  }
+  try {
+    const vocabularyId = req.params.vocabularyId
+    await VocabularyModel.findOneAndUpdate(
+      { _id: new ObjectId(vocabularyId) },
+      { name, spelling, translation, example, type }
+    )
+    res.json({
+      success: true,
+      message: 'Success.',
     })
   } catch (error) {
     res.status(500).json({
@@ -103,4 +129,5 @@ module.exports = {
   createVocabulary,
   getVocabularies,
   deleteVocabulary,
+  updateVocabulary,
 }

@@ -7,8 +7,9 @@ import { vocabularySchema } from '@/schemas/vocabulary.schema'
 import { Box } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { useForm } from 'react-hook-form'
+import { useEffect } from 'react'
 
-const ModalAddANewWord = ({ onClose, onSubmit }) => {
+const ModalAddANewWord = ({ onClose, onSubmit, updateValue }) => {
   const classes = useStyles()
 
   const form = useForm({
@@ -21,6 +22,16 @@ const ModalAddANewWord = ({ onClose, onSubmit }) => {
     },
     resolver: vocabularySchema,
   })
+
+  useEffect(() => {
+    form.reset({
+      name: updateValue?.name?.props.text,
+      type: updateValue?.typeId,
+      spelling: updateValue?.spelling,
+      translation: updateValue?.translation,
+      example: updateValue?.example,
+    })
+  }, [updateValue])
 
   const { errors, isSubmitted } = form.formState
 
@@ -35,7 +46,12 @@ const ModalAddANewWord = ({ onClose, onSubmit }) => {
   }
 
   return (
-    <Modal title="Add a new word" onClose={onClose} onSubmit={form.handleSubmit(onSubmit)}>
+    <Modal
+      title={!!updateValue ? 'Edit word' : 'Add a new word'}
+      isEdit={!!updateValue}
+      onClose={onClose}
+      onSubmit={form.handleSubmit(onSubmit)}
+    >
       <Box className={classes.modalBody}>
         <FormControlLabel message={errors.name && errors.name.message}>
           <InputText

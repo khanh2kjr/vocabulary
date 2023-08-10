@@ -6,6 +6,7 @@ import {
   setQueries,
   vocabularySelector,
   createVocabulary,
+  updateVocabulary,
   deleteVocabulary,
 } from '@/reducers/vocabulary.reducer'
 import { Add, Delete, Search } from '@mui/icons-material'
@@ -66,6 +67,7 @@ const Vocabulary = () => {
     typeId: queries.typeId || '',
   })
   const [useModalAddANewWord, setUseModalAddANewWord] = useState(false)
+  const [registeredVocabulary, setRegisteredVocabulary] = useState(null)
 
   const createVocabularyRow = (vocabulary, currentUserId) => {
     const isVocabularyOwner = vocabulary.user._id === currentUserId
@@ -80,10 +82,15 @@ const Vocabulary = () => {
       ),
       author: `${vocabulary.user.firstName} ${vocabulary.user.lastName}`,
       delete: isVocabularyOwner ? (
-        <Delete sx={{ cursor: 'pointer' }} className="svg-icon" onClick={() => handleDeleteVocabulary(vocabulary.id)} />
+        <Delete
+          sx={{ cursor: 'pointer' }}
+          className="svg-icon"
+          onClick={e => handleDeleteVocabulary(e, vocabulary.id)}
+        />
       ) : (
         ''
       ),
+      useClickRow: isVocabularyOwner,
     }
   }
 
@@ -91,7 +98,9 @@ const Vocabulary = () => {
     return vocabularies.map(vocabulary => createVocabularyRow(vocabulary, user.id))
   }, [vocabularies])
 
-  const handleDeleteVocabulary = vocabularyId => {
+  const handleDeleteVocabulary = (event, vocabularyId) => {
+    event.nativeEvent.stopImmediatePropagation()
+    event.stopPropagation()
     const confirm = window.confirm('Do you wish to delete this Vocabulary?')
     if (confirm) {
       dispatch(deleteVocabulary(vocabularyId))
@@ -171,6 +180,35 @@ const Vocabulary = () => {
       })
   }
 
+  const handleUpdateWord = requestBody => {
+    const payload = {
+      requestBody: {
+        ...requestBody,
+        user: user.id,
+      },
+      vocabularyId: registeredVocabulary.id,
+    }
+    dispatch(updateVocabulary(payload))
+      .unwrap()
+      .then(() => {
+        setUseModalAddANewWord(false)
+        dispatch(getVocabularies(queriesInternal))
+      })
+  }
+
+  const handleClickRow = rowData => {
+    const isVocabularyOwner = rowData.user._id === user.id
+    if (isVocabularyOwner) {
+      setRegisteredVocabulary(rowData)
+      setUseModalAddANewWord(true)
+    }
+  }
+
+  const handleOpenModalAddANewWord = () => {
+    setRegisteredVocabulary(null)
+    setUseModalAddANewWord(true)
+  }
+
   const handleVocabularyTypeChange = ({ value }) => {
     setQueriesInternal({
       ...queriesInternal,
@@ -224,7 +262,7 @@ const Vocabulary = () => {
               variant="outlined"
               startIcon={<Add />}
               className={classes.buttonAddANewWord}
-              onClick={() => setUseModalAddANewWord(true)}
+              onClick={handleOpenModalAddANewWord}
             >
               Add a new Word
             </Button>
@@ -238,9 +276,14 @@ const Vocabulary = () => {
         total={totalElements}
         onPageChange={handlePageChange}
         onLimitChange={handleLimitChange}
+        onClickRow={handleClickRow}
       />
       {useModalAddANewWord && (
-        <ModalAddANewWord onClose={() => setUseModalAddANewWord(false)} onSubmit={handleAddANewWord} />
+        <ModalAddANewWord
+          onClose={() => setUseModalAddANewWord(false)}
+          onSubmit={registeredVocabulary ? handleUpdateWord : handleAddANewWord}
+          updateValue={registeredVocabulary}
+        />
       )}
     </Fragment>
   )
