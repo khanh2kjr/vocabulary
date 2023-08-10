@@ -15,6 +15,7 @@ const TextToSpeech = ({ text }) => {
     const utterance = new SpeechSynthesisUtterance(text)
     const synth = window.speechSynthesis
     const voices = synth.getVoices()
+    console.log(voices)
     utterance.voice = voice || voices[0]
     utterance.pitch = 1
     utterance.rate = 0.8
