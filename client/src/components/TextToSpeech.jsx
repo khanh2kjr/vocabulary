@@ -15,15 +15,13 @@ const TextToSpeech = ({ text }) => {
     const utterance = new SpeechSynthesisUtterance(text)
     const synth = window.speechSynthesis
     const voices = synth.getVoices()
-    console.log(voices)
-    utterance.voice = voice || voices[0]
+    utterance.voice = voice || voices.find(voice => voice.lang === 'en-GB') || voices[0]
     utterance.pitch = 1
     utterance.rate = 0.8
     utterance.volume = 2
     utterance.onend = () => {
       setPlaying(false)
     }
-    console.log(utterance.voice)
     synth.speak(utterance)
   }
 
@@ -31,7 +29,7 @@ const TextToSpeech = ({ text }) => {
     const synth = window.speechSynthesis
     synth.addEventListener('voiceschanged', () => {
       const voices = synth.getVoices()
-      setVoice(voices[0])
+      setVoice(voices.find(voice => voice.lang === 'en-GB') || voices[0])
     })
   }, [text])
 
